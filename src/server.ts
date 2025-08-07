@@ -104,7 +104,6 @@ function mockGlobalFetch(options: Required<MockulaServerOptions>) {
       }
     );
 
-    console.log("mockulaResponse.status", mockulaResponse.status, options);
     if (mockulaResponse.status === 404) {
       if (options.onUnhandledRequest === "warn") {
         console.warn(`⚠️ No handler found for request:

@@ -22,6 +22,54 @@ class MockulaHttpHandler {
     });
   }
 
+  post(url: string | RegExp, handler: MockulaHttpHandlerFunction) {
+    this.handlers.push({
+      method: "POST",
+      url,
+      handler,
+    });
+  }
+
+  put(url: string | RegExp, handler: MockulaHttpHandlerFunction) {
+    this.handlers.push({
+      method: "PUT",
+      url,
+      handler,
+    });
+  }
+
+  delete(url: string | RegExp, handler: MockulaHttpHandlerFunction) {
+    this.handlers.push({
+      method: "DELETE",
+      url,
+      handler,
+    });
+  }
+
+  patch(url: string | RegExp, handler: MockulaHttpHandlerFunction) {
+    this.handlers.push({
+      method: "PATCH",
+      url,
+      handler,
+    });
+  }
+
+  head(url: string | RegExp, handler: MockulaHttpHandlerFunction) {
+    this.handlers.push({
+      method: "HEAD",
+      url,
+      handler,
+    });
+  }
+
+  options(url: string | RegExp, handler: MockulaHttpHandlerFunction) {
+    this.handlers.push({
+      method: "OPTIONS",
+      url,
+      handler,
+    });
+  }
+
   clear() {
     this.handlers.splice(0, this.handlers.length);
   }
@@ -33,7 +81,7 @@ class MockulaHttpHandler {
     // Find the first matching handler
     for (const handlerEntry of this.handlers) {
       // Check if method matches
-      if (handlerEntry.method !== method.toUpperCase()) {
+      if (handlerEntry.method.toUpperCase() !== method.toUpperCase()) {
         continue;
       }
 
