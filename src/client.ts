@@ -66,7 +66,7 @@ class MockulaClient {
 
     const app = new Hono();
 
-    app.post("/request", async (c) => {
+    app.post("/internal-request", async (c) => {
       try {
         const requestData = await c.req.json();
 

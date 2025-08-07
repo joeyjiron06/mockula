@@ -1,8 +1,14 @@
-import { describe, it, expect, beforeAll, beforeEach, afterAll } from "vitest";
+import { beforeAll, afterAll, beforeEach, describe, it, expect } from "vitest";
 import mockula, { http } from "./client";
 
 beforeAll(() => mockula.listen());
 beforeEach(() => mockula.resetHandlers());
+beforeEach(() =>
+  fetch(
+    "http://localhost:9696/changeMockulaServer/onUnhandledRequest/default",
+    { method: "POST" }
+  )
+);
 afterAll(() => mockula.close());
 
 describe("index", () => {
@@ -30,5 +36,58 @@ describe("index", () => {
     expect(json).toEqual({
       message: "Mocked response from external API",
     });
+  });
+
+  it("should warn if there is an unhandled request", async () => {
+    fetch("http://localhost:9696/changeMockulaServer/onUnhandledRequest/warn", {
+      method: "POST",
+    });
+    const response = await fetch("http://localhost:9696/external-api-data");
+    const text = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(text).toBe("");
+  });
+
+  it("should error if there is an unhandled request", async () => {
+    fetch(
+      "http://localhost:9696/changeMockulaServer/onUnhandledRequest/error",
+      {
+        method: "POST",
+      }
+    );
+    const response = await fetch("http://localhost:9696/external-api-data");
+    const text = await response.text();
+
+    expect(response.status).toBe(500);
+    expect(text).toBe("Internal Server Error");
+  });
+
+  it("should return an error if there is an unhandled request for option bypass", async () => {
+    fetch(
+      "http://localhost:9696/changeMockulaServer/onUnhandledRequest/bypass",
+      {
+        method: "POST",
+      }
+    );
+    const response = await fetch("http://localhost:9696/external-api-data");
+    const text = await response.text();
+
+    expect(response.status).toBe(500);
+    expect(text).toBe("Internal Server Error");
+  });
+
+  it("should return a custom response when onUnhandledRequest is a function", async () => {
+    fetch(
+      "http://localhost:9696/changeMockulaServer/onUnhandledRequest/custom",
+      {
+        method: "POST",
+      }
+    );
+    const response = await fetch("http://localhost:9696/another-external-api");
+    const text = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(text).toBe("Custom response for another external API");
   });
 });
