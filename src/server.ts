@@ -86,7 +86,7 @@ function mockGlobalFetch(options: Required<MockulaServerOptions>) {
     }
 
     const mockulaResponse = await originalFetch(
-      `http://localhost:${options.port}/internal-request`,
+      `http://localhost:${options.port}/fetch`,
       {
         method: "POST",
         headers: {
