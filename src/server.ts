@@ -149,5 +149,5 @@ function unmockGlobalFetch() {
 }
 
 // export a singleton instance of MockulaServer
-const defaultMockulaServer = new MockulaServer();
+const defaultMockulaServer: MockulaServer = new MockulaServer();
 export default defaultMockulaServer;
