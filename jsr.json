@@ -1,0 +1,16 @@
+{
+  "name": "@lazybear/mockula",
+  "version": "1.0.0-beta.1",
+  "main": "index.ts",
+  "exports": {
+    "./client": {
+      "types": "./dist/src/client.d.ts",
+      "default": "./dist/src/client.js"
+    },
+    "./server": {
+      "types": "./dist/src/server.d.ts",
+      "default": "./dist/src/server.js"
+    }
+  },
+  "license": "ISC"
+}
